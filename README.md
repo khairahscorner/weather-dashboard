@@ -1,7 +1,7 @@
 # Weather Dashboard
 
 ## About
-A Streamlit app that displays real-time weather data for multiple cities. Data history are also saved.
+A Streamlit app that fetches and displays real-time weather data for cities.
 
 ## Stack
 - Python
@@ -17,7 +17,9 @@ A Streamlit app that displays real-time weather data for multiple cities. Data h
 ## Features
 - Fetches real-time weather data for any specified city of choice
 - Displays weather conditions like temperature (°F), humidity, etc
-- Automatically saves weather data in AWS S3 with timestamps for historical tracking
+- Automatically saves weather data to AWS S3 with timestamps for historical tracking
+
+
 
 ## Concepts Learnt
 - Python web app development (using Streamlit)

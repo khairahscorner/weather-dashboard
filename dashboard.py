@@ -111,7 +111,7 @@ if st.button("Get Weather"):
 
             st.success(f"Weather in {city} today ({today}):")
             st.write(f"- **Condition**: {weather.capitalize()}")
-            st.write(f"- **Temperature**: {temp}°C")
+            st.write(f"- **Temperature**: {temp}°F")
             st.write(f"- **Humidity**: {humidity}%")
             st.write(f"- **Wind Speed**: {wind_speed} m/s")
 
