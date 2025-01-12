@@ -2,6 +2,7 @@
 
 ## About
 A Streamlit app that displays real-time weather data for multiple cities. Data history are also saved.
+
 ## Stack
 - Python
 - Boto3
@@ -11,7 +12,12 @@ A Streamlit app that displays real-time weather data for multiple cities. Data h
 - AWS ECS/Fargate (deploy)
 
 ## Architectural Diagram
-TBA
+[Diagram](architecture.png)
+
+## Features
+- Fetches real-time weather data for any specified city of choice
+- Displays weather conditions like temperature (°F), humidity, etc
+- Automatically saves weather data in AWS S3 with timestamps for historical tracking
 
 ## Concepts Learnt
 - Python web app development (using Streamlit)
@@ -22,13 +28,8 @@ TBA
 - CI/CD (GitHub Actions, AWS)
 
 ## Development Process
-- - [Documentation](docs.md)
-- - TBA: Blog post
-
-## Features
-- Fetches real-time weather data for any specified city of choice
-- Displays weather conditions like temperature (°F), humidity, etc
-- Automatically saves weather data in AWS S3 with timestamps for historical tracking
+  - [Documentation](docs.md)
+  - TBA: Blog post
 
 ## CI/CD
 TBC

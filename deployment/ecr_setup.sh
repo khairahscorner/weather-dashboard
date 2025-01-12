@@ -21,13 +21,6 @@ else
   echo "Repository $REPOSITORY_NAME already exists."
 fi
 
-if ! grep -q "^IMAGE_URL=" .env; then
-  echo "Adding IMAGE_URL to .env file..."
-  echo "\\nIMAGE_URL=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$REPOSITORY_NAME:latest" >> .env
-else
-  echo "IMAGE_URL is already defined in .env file."
-fi
-
 # Authenticate Docker to Amazon ECR
 echo "Authenticating Docker to Amazon ECR..."
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
@@ -44,3 +37,10 @@ docker tag $REPOSITORY_NAME:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazo
 echo "Pushing Docker image to Amazon ECR..."
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$REPOSITORY_NAME:latest
 echo "Docker image pushed successfully!"
+
+if ! grep -q "^IMAGE_URL=" .env; then
+  echo "Adding IMAGE_URL to .env file..."
+  echo "\\nIMAGE_URL=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$REPOSITORY_NAME:latest" >> .env
+else
+  echo "IMAGE_URL is already defined in .env file."
+fi

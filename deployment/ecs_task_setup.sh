@@ -5,6 +5,7 @@ POLICY_ARN="arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolic
 TRUST_POLICY_FILE="policy.json"
 CLUSTER_NAME=streamlit-cluster
 TASK_NAME=streamlit-app
+SERVICE_NAME=streamlit_service
 
 # retrieve necessary variables from .env
 export $(grep -v '^#' .env | xargs)
@@ -82,25 +83,44 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-#Create cluster if not already exists
-echo "Now creating cluster: $CLUSTER_NAME"
-aws ecs create-cluster --cluster-name $CLUSTER_NAME > /dev/null 2>&1
+# Check if cluster exists
+echo "Checking for cluster"
+aws ecs list-clusters | grep -q "$CLUSTER_NAME"
 if [ $? -ne 0 ]; then
-    echo "Error with creating cluster"
-    exit 1
-fi
-
-echo "Now creating service"
-aws ecs create-service --cluster $CLUSTER_NAME --service-name streamlit_service \
-  --task-definition $TASK_NAME --desired-count 1 --launch-type FARGATE \
-  --network-configuration `awsvpcConfiguration={
-    subnets=$SUBNETS,
-    securityGroups=$SECURITY_GROUPS,
-    assignPublicIp=ENABLED}` > /dev/null 2>&1
-
-if [ $? -ne 0 ]; then
-    echo "Error with creating service"
-    exit 1
+  #Create cluster if not already exists
+  echo "Now creating cluster: $CLUSTER_NAME"
+  aws ecs create-cluster --cluster-name $CLUSTER_NAME > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+      echo "Error with creating cluster"
+      exit 1
+  fi
 else
-    echo "Complete"
+  echo "Cluster already exists"
 fi
+
+
+echo "checking if service already exists"
+aws ecs list-services --cluster $CLUSTER_NAME > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  echo "Service already exists, updating..."
+  aws aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment > /dev/null 2>&1
+  
+  if [ $? -ne 0 ]; then
+      echo "Error with creating cluster"
+      exit 1
+  fi
+else
+  echo "Now creating service"
+  aws ecs create-service --cluster $CLUSTER_NAME --service-name $SERVICE_NAME \
+    --task-definition $TASK_NAME --desired-count 1 --launch-type FARGATE \
+    --network-configuration `awsvpcConfiguration={
+      subnets=$SUBNETS,
+      securityGroups=$SECURITY_GROUPS,
+      assignPublicIp=ENABLED}` > /dev/null 2>&1
+
+  if [ $? -ne 0 ]; then
+      echo "Error with creating service"
+      exit 1
+fi
+
+echo "Complete"
