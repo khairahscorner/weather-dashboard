@@ -12,7 +12,7 @@ A Streamlit app that displays real-time weather data for multiple cities. Data h
 - AWS ECS/Fargate (deploy)
 
 ## Architectural Diagram
-[Diagram](architecture.png)
+![Diagram](architecture.png)
 
 ## Features
 - Fetches real-time weather data for any specified city of choice
