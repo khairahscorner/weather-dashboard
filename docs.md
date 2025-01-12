@@ -26,3 +26,16 @@ MacOS
 
 
 Ensure that the security group allows inbound access from port 8501
+
+All variables needed in .env
+
+- OPENWEATHER_API_KEY
+- AWS_BUCKET_NAME
+- AWS_REGION
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_ACCOUNT_ID
+- SUBNETS
+- SECURITY_GROUPS
+
+(IMAGE_URL gets added or you can add yourself too)
