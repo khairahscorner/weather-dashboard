@@ -19,7 +19,7 @@ A Streamlit app that fetches and displays real-time weather data for cities.
 - Displays weather conditions like temperature (°F), humidity, etc
 - Automatically saves weather data to AWS S3 with timestamps for historical tracking
 
-
+![App](deployed-app-comp.gif)
 
 ## Concepts Learnt
 - Python web app development (using Streamlit)
