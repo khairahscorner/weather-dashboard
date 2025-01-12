@@ -7,6 +7,8 @@ MacOS
  - virtualenv -p python3 .venv
  - source .venv/bin/activate
 
+ - deactivate
+
 3) Run pip install -r requirements.txt
 
 4) Start app with streamlit run src/dashboard.py
@@ -16,3 +18,11 @@ MacOS
 6) Run with Docker:
 - Build image: docker build -t streamlit_app . 
 - Run container app: docker run --env-file .env -p 8501:8501 streamlit_app
+
+
+7) Deploy to ECS
+- setup env: `sh ecr_setup.sh`
+- configure ECS and deploy: `sh ecs_task_setup.sh`
+
+
+Ensure that the security group allows inbound access from port 8501
