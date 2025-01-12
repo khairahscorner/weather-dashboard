@@ -31,7 +31,7 @@ A Streamlit app that fetches and displays real-time weather data for cities.
 
 ## Development Process
   - [Documentation](docs.md)
-  - TBA: Blog post
+  - [Blog post](https://khairahscorner.hashnode.dev/build-and-deploy-weather-app-using-streamlit-and-aws-ecs-with-fargate)
 
 ## CI/CD
 TBC
