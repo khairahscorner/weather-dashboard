@@ -8,7 +8,6 @@ A Streamlit app that fetches and displays real-time weather data for cities.
 - Boto3
 - Streamlit (open-source Python library for web apps)
 - AWS S3
-- GitHub Actions
 - AWS ECS/Fargate (deploy)
 
 ## Architectural Diagram
@@ -27,11 +26,10 @@ A Streamlit app that fetches and displays real-time weather data for cities.
 - Cloud Storage (AWS S3)
 - Containerisation (Docker)
 - Container App Deployment (AWS ECS with Fargate)
-- CI/CD (GitHub Actions, AWS)
 
 ## Development Process
   - [Documentation](docs.md)
   - [Blog post](https://khairahscorner.hashnode.dev/build-and-deploy-weather-app-using-streamlit-and-aws-ecs-with-fargate)
 
-## CI/CD
-TBC
+## Enhancements
+- CI/CD to trigger redeploy: GitHub Actions, AWS
