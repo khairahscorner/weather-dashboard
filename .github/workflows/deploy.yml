@@ -47,9 +47,11 @@ jobs:
       - name: Run ECR Setup Script
         run: |
           # exported env variable in this script only works within same job (else, needs to be an artifact/output)
-          bash ./deployment/ecr_setup.sh
+          cd ../deployment
+          bash ecr_setup.sh
 
       - name: Run ECS Script
         run: |
           echo "Using IMAGE_URL: ::add-mask::$IMAGE_URL"
-          bash ./deployment/ecs_task_setup.sh
+          cd ../deployment
+          bash ecs_task_setup.sh
