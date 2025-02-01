@@ -6,9 +6,9 @@ on:
       - main
 
 env:
-  AWS_REGION: eu-west-2
+  AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_BUCKET_NAME: ${{ vars.AWS_BUCKET_NAME }}
-  AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
@@ -47,7 +47,7 @@ jobs:
       - name: Run ECR Setup Script
         run: |
           # exported env variable in this script only works within same job (else, needs to be an artifact/output)
-          bash ./deployments/ecr_setup.sh
+          bash ./deployment/ecr_setup.sh
 
       - name: Run ECS Script
         run: |
