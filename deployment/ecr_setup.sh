@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# retrieve necessary variables from .env
-export $(grep -v '^#' .env | xargs)
+# retrieve necessary variables from .env (Modifying for GHA: envs directly set in workflow)
+# export $(grep -v '^#' .env | xargs)
 
 # Other variables
 REPOSITORY_NAME="weather-dashboard"
@@ -38,9 +38,19 @@ echo "Pushing Docker image to Amazon ECR..."
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$REPOSITORY_NAME:latest
 echo "Docker image pushed successfully!"
 
-if ! grep -q "^IMAGE_URL=" .env; then
-  echo "Adding IMAGE_URL to .env file..."
-  echo "\\nIMAGE_URL=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$REPOSITORY_NAME:latest" >> .env
+# modifying for GHA
+# if ! grep -q "^IMAGE_URL=" .env; then
+#   echo "Adding IMAGE_URL to .env file..."
+#   echo "\\nIMAGE_URL=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$REPOSITORY_NAME:latest" >> .env
+# else
+#   echo "IMAGE_URL is already defined in .env file."
+# fi
+
+if [[ -z "$IMAGE_URL" ]]; then
+  echo "Adding IMAGE_URL to GHA environment..."
+  IMAGE_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$REPOSITORY_NAME:latest"
+  # Persist IMAGE_URL for the remaining steps in the GHA workflow
+  echo "IMAGE_URL=$IMAGE_URL" >> $GITHUB_ENV
 else
-  echo "IMAGE_URL is already defined in .env file."
+  echo "IMAGE_URL is already set in the GHA environment."
 fi

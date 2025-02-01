@@ -1,0 +1,50 @@
+name: Deploy Streamlit App to ECS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: eu-west-2
+  AWS_BUCKET_NAME: ${{ vars.AWS_BUCKET_NAME }}
+  AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+  SUBNETS: ${{ secrets.SUBNETS }}
+  SECURITY_GROUPS: ${{ secrets.SECURITY_GROUPS }}
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+  run-scripts:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run ECR Setup Script
+        run: |
+          # exported env variable in this script only works within same job (else, needs to be an artifact/output)
+          bash ./deployments/ecr_setup.sh
+
+      - name: Run ECS Script
+        run: |
+          echo "Using IMAGE_URL: ::add-mask::$IMAGE_URL"
+          bash ./deployment/ecs_task_setup.sh

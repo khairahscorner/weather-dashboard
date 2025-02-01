@@ -7,8 +7,8 @@ CLUSTER_NAME=streamlit-cluster
 TASK_NAME=streamlit-app
 SERVICE_NAME=streamlit_service
 
-# retrieve necessary variables from .env
-export $(grep -v '^#' .env | xargs)
+# retrieve necessary variables from .env (Modifying for GHA: envs directly set in workflow)
+# export $(grep -v '^#' .env | xargs)
 
 TASK_DEFINITION=$(cat <<EOF
 {
