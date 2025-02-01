@@ -43,15 +43,17 @@ jobs:
   run-scripts:
     needs: setup
     runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Run ECR Setup Script
         run: |
           # exported env variable in this script only works within same job (else, needs to be an artifact/output)
-          cd ../deployment
-          bash ecr_setup.sh
+          bash ./deployment/ecr_setup.sh
 
       - name: Run ECS Script
         run: |
           echo "Using IMAGE_URL: ::add-mask::$IMAGE_URL"
-          cd ../deployment
-          bash ecs_task_setup.sh
+          bash ./deployment/ecs_task_setup.sh
