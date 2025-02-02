@@ -79,8 +79,8 @@ echo "Registering task definition with image: $IMAGE_URL"
 aws ecs register-task-definition --cli-input-json "$TASK_DEFINITION" > /dev/null 2>&1
 
 if [ $? -ne 0 ]; then
-    echo "Error with registering"
-    exit 1
+  echo "Error with registering"
+  exit 1
 fi
 
 # Check if cluster exists
@@ -91,8 +91,8 @@ if [ $? -ne 0 ]; then
   echo "Now creating cluster: $CLUSTER_NAME"
   aws ecs create-cluster --cluster-name $CLUSTER_NAME > /dev/null 2>&1
   if [ $? -ne 0 ]; then
-      echo "Error with creating cluster"
-      exit 1
+    echo "Error with creating cluster"
+    exit 1
   fi
 else
   echo "Cluster already exists"
@@ -106,8 +106,8 @@ if [ $? -eq 0 ]; then
   aws aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment > /dev/null 2>&1
   
   if [ $? -ne 0 ]; then
-      echo "Error with creating cluster"
-      exit 1
+    echo "Error with creating cluster"
+    exit 1
   fi
 else
   echo "Now creating service"
@@ -119,8 +119,6 @@ else
       assignPublicIp=ENABLED}` > /dev/null 2>&1
 
   if [ $? -ne 0 ]; then
-      echo "Error with creating service"
-      exit 1
+    echo "Error with creating service"
+    exit 1
 fi
-
-echo "Complete"
