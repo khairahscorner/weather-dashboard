@@ -35,4 +35,6 @@ A Streamlit app that fetches and displays real-time weather data for cities.
 
 ## Enhancements
 - Use Application Load balancer to route internet traffic to the app in the cluster (instead of public-facing IP addresses) for scalability and security
-- Use a public-private-subnets architecture and use an API Gateway as the entry point.
+- Use a public-private-subnets architecture and use an API Gateway as the entry point, routing requests to the load balancer.
+
+[Enhancement project](https://github.com/khairahscorner/scalable-containerised-api)
