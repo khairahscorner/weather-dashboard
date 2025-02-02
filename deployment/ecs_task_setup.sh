@@ -100,23 +100,19 @@ fi
 
 
 echo "checking if service already exists"
-aws ecs list-services --cluster $CLUSTER_NAME > /dev/null 2>&1
-if [ $? -eq 0 ]; then
+if aws ecs list-services --cluster $CLUSTER_NAME --query "serviceArns" --output text | grep -q $SERVICE_NAME; then
   echo "Service already exists, updating..."
   aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment > /dev/null 2>&1
   
   if [ $? -ne 0 ]; then
-    echo "Error with creating cluster"
+    echo "Error updating service in cluster"
     exit 1
   fi
 else
   echo "Now creating service"
   aws ecs create-service --cluster $CLUSTER_NAME --service-name $SERVICE_NAME \
     --task-definition $TASK_NAME --desired-count 1 --launch-type FARGATE \
-    --network-configuration `awsvpcConfiguration={
-      subnets=$SUBNETS,
-      securityGroups=$SECURITY_GROUPS,
-      assignPublicIp=ENABLED}` > /dev/null 2>&1
+  --network-configuration "awsvpcConfiguration={subnets=$SUBNETS,securityGroups=$SECURITY_GROUPS,assignPublicIp=\"ENABLED\"}" > /dev/null 2>&1
 
   if [ $? -ne 0 ]; then
     echo "Error with creating service"
