@@ -38,4 +38,5 @@ jobs:
       - name: Run ECS Script
         run: |
           echo "Using IMAGE_URL: ::add-mask::$IMAGE_URL"
-          bash ./deployment/ecs_task_setup.sh
+          cd ./deployment
+          bash ecs_task_setup.sh

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROLE_NAME="ecsTaskExecutionRole"
+ROLE_NAME="ecsTaskExecutionRoleV1"
 POLICY_ARN="arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 TRUST_POLICY_FILE="policy.json"
 CLUSTER_NAME=streamlit-cluster
