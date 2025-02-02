@@ -9,6 +9,7 @@ A Streamlit app that fetches and displays real-time weather data for cities.
 - Streamlit (open-source Python library for web apps)
 - AWS S3
 - AWS ECS/Fargate (deploy)
+- GitHub Actions
 
 ## Architectural Diagram
 ![Diagram](architecture.png)
@@ -26,10 +27,12 @@ A Streamlit app that fetches and displays real-time weather data for cities.
 - Cloud Storage (AWS S3)
 - Containerisation (Docker)
 - Container App Deployment (AWS ECS with Fargate)
+- CI/CD (GitHub Actions)
 
 ## Development Process
   - [Documentation](docs.md)
   - [Blog post](https://khairahscorner.hashnode.dev/build-and-deploy-weather-app-using-streamlit-and-aws-ecs-with-fargate)
 
 ## Enhancements
-- CI/CD to trigger redeploy: GitHub Actions, AWS
+- Use Application Load balancer to route internet traffic to the app in the cluster (instead of public-facing IP addresses) for scalability and security
+- Use a public-private-subnets architecture and use an API Gateway as the entry point.
