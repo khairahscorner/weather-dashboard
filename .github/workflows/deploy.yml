@@ -5,16 +5,6 @@ on:
     branches:
       - main
 
-env:
-  AWS_REGION: ${{ vars.AWS_REGION }}
-  AWS_BUCKET_NAME: ${{ vars.AWS_BUCKET_NAME }}
-  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
-  SUBNETS: ${{ secrets.SUBNETS }}
-  SECURITY_GROUPS: ${{ secrets.SECURITY_GROUPS }}
-
 jobs:
   run-scripts:
     runs-on: ubuntu-latest
@@ -26,17 +16,33 @@ jobs:
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v4.0.3
         with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Run ECR Setup Script
         run: |
           # exported env variable in this script only works within same job (else, needs to be an artifact/output)
           bash ./deployment/ecr_setup.sh
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+      - name: Confirm IMAGE_URL now available
+        run: |
+          echo "Image url: $IMAGE_URL"
 
       - name: Run ECS Script
         run: |
-          echo "Using IMAGE_URL: ::add-mask::$IMAGE_URL"
           cd ./deployment
           bash ecs_task_setup.sh
+        env:
+          IMAGE_URL: ${{ env.IMAGE_URL }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_BUCKET_NAME: ${{ vars.AWS_BUCKET_NAME }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+          SUBNETS: ${{ secrets.SUBNETS }}
+          SECURITY_GROUPS: ${{ secrets.SECURITY_GROUPS }}

@@ -6,8 +6,8 @@ from datetime import datetime
 from dotenv import load_dotenv
 import streamlit as st
 
-# Load environment variables
-load_dotenv()
+# Load environment variables not needed in workflow
+# load_dotenv()
 
 class WeatherDashboard:
     def __init__(self):

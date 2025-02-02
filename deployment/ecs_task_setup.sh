@@ -27,6 +27,20 @@ TASK_DEFINITION=$(cat <<EOF
           "hostPort": 8501,
           "protocol": "tcp"
         }
+      ],
+      "environment": [
+        {
+          "name": "OPENWEATHER_API_KEY",
+          "value": "$OPENWEATHER_API_KEY"
+        },
+        {
+          "name": "AWS_BUCKET_NAME",
+          "value": "$AWS_BUCKET_NAME"
+        },
+        {
+          "name": "AWS_REGION",
+          "value": "$AWS_REGION"
+        }
       ]
     }
   ],
