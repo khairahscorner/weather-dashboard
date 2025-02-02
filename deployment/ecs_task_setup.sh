@@ -103,7 +103,7 @@ echo "checking if service already exists"
 aws ecs list-services --cluster $CLUSTER_NAME > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   echo "Service already exists, updating..."
-  aws aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment > /dev/null 2>&1
+  aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment > /dev/null 2>&1
   
   if [ $? -ne 0 ]; then
     echo "Error with creating cluster"
@@ -121,4 +121,5 @@ else
   if [ $? -ne 0 ]; then
     echo "Error with creating service"
     exit 1
+  fi
 fi
